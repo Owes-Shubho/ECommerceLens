@@ -1,0 +1,50 @@
+@import "./tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* shadcn/ui variable names, pointed at the ECommerceLens tokens so generated shadcn components stay on-system. */
+:root {
+  --background: var(--surface);
+  --foreground: var(--ink);
+  --card: var(--surface-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--surface-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--lens);
+  --primary-foreground: var(--on-lens);
+  --secondary: var(--surface-sunken);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-sunken);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--lens-soft);
+  --accent-foreground: var(--lens);
+  --destructive: var(--critical-ink);
+  --destructive-foreground: var(--surface-raised);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--lens);
+  --radius: var(--radius-md);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-surface font-sans text-body text-ink antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
