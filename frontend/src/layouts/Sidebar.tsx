@@ -1,13 +1,14 @@
 import type * as React from "react";
+import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import type { NavItem } from "./nav";
 
 export interface SidebarProps {
   items: NavItem[];
-  active: string;
-  onSelect: (id: string) => void;
   footer?: React.ReactNode;
   className?: string;
+  /** Called after a link is chosen (closes the mobile drawer). */
+  onNavigate?: () => void;
 }
 
 /** Placeholder mark until a real logo exists: a lens ring on a lens tile. */
@@ -22,7 +23,7 @@ export function LensMark({ className }: { className?: string }) {
 }
 
 /** Main navigation: wordmark, pages grouped by area, and the active dataset version in the footer. */
-export function Sidebar({ items, active, onSelect, footer, className }: SidebarProps) {
+export function Sidebar({ items, footer, className, onNavigate }: SidebarProps) {
   const groups = [...new Set(items.map((i) => i.group))];
   return (
     <nav aria-label="Main" className={cn("flex w-sidebar flex-col gap-space-4 border-r border-line bg-surface px-space-3 py-space-4", className)}>
@@ -36,24 +37,23 @@ export function Sidebar({ items, active, onSelect, footer, className }: SidebarP
             <div className="px-space-2 pb-space-1 pt-space-3 text-eyebrow uppercase text-ink-subtle">{g}</div>
             {items
               .filter((i) => i.group === g)
-              .map((i) => {
-                const on = i.id === active;
-                return (
-                  <button
-                    key={i.id}
-                    type="button"
-                    aria-current={on ? "page" : undefined}
-                    onClick={() => onSelect(i.id)}
-                    className={cn(
+              .map((i) => (
+                <NavLink
+                  key={i.id}
+                  to={i.path}
+                  end={i.path === "/"}
+                  onClick={onNavigate}
+                  className={({ isActive }) =>
+                    cn(
                       "flex h-8 items-center justify-between gap-space-2 rounded-sm px-space-2 text-left text-body-sm",
-                      on ? "bg-lens-soft font-semibold text-lens" : "text-ink-muted hover:bg-surface-sunken hover:text-ink",
-                    )}
-                  >
-                    <span>{i.label}</span>
-                    {i.badge ? <span className="tabular text-eyebrow text-critical-ink">{i.badge}</span> : null}
-                  </button>
-                );
-              })}
+                      isActive ? "bg-lens-soft font-semibold text-lens" : "text-ink-muted hover:bg-surface-sunken hover:text-ink",
+                    )
+                  }
+                >
+                  <span>{i.label}</span>
+                  {i.badge ? <span className="tabular text-eyebrow text-critical-ink">{i.badge}</span> : null}
+                </NavLink>
+              ))}
           </div>
         ))}
       </div>

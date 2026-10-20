@@ -14,7 +14,7 @@ export function Sparkline({ values, width = 96, height = 32, className = "text-l
   const d = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
   const [lx, ly] = pts[pts.length - 1];
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} className={className} aria-hidden>
+    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} className={`shrink min-w-0 ${className}`} preserveAspectRatio="none" aria-hidden>
       <path d={`${d} L${lx.toFixed(1)} ${height} L2 ${height} Z`} fill="currentColor" opacity={0.1} />
       <path d={d} fill="none" stroke="currentColor" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
       <circle cx={lx} cy={ly} r={3} fill="currentColor" stroke="var(--surface-raised)" strokeWidth={2} />

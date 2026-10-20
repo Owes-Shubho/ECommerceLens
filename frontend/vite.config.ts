@@ -6,4 +6,6 @@ export default defineConfig({
   plugins: [react()],
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
   server: { port: 5173 },
+  // Plotly is a large library that loads only on pages with charts.
+  build: { chunkSizeWarningLimit: 5000 },
 });

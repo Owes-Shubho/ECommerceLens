@@ -10,6 +10,8 @@ export interface KpiCardProps {
   /** Percent change, e.g. 8.4 or -1.9. */
   delta?: number;
   deltaLabel?: string;
+  /** "%" for relative change (default), "pp" for percentage-point change of a rate. */
+  deltaUnit?: "%" | "pp";
   trend?: number[];
   /** "down" for metrics where lower is better (return rate, latency, cost). */
   goodDirection?: "up" | "down";
@@ -17,10 +19,11 @@ export interface KpiCardProps {
 }
 
 /** One headline metric with its change and a small trend. Every value must come from a query result. */
-export function KpiCard({ label, value, unit, delta, deltaLabel, trend, goodDirection = "up", className }: KpiCardProps) {
+export function KpiCard({ label, value, unit, delta, deltaLabel, deltaUnit = "%", trend, goodDirection = "up", className }: KpiCardProps) {
   const hasDelta = typeof delta === "number";
-  const good = hasDelta && delta !== 0 && delta > 0 === (goodDirection === "up");
-  const tone = !hasDelta || delta === 0 ? "text-ink-muted" : good ? "text-good-ink" : "text-critical-ink";
+  const good = hasDelta && Math.abs(delta) >= 0.05 && delta > 0 === (goodDirection === "up");
+  const flat = !hasDelta || Math.abs(delta) < 0.05;
+  const tone = flat ? "text-ink-muted" : good ? "text-good-ink" : "text-critical-ink";
   return (
     <section aria-label={label} className={cn("grid min-w-0 gap-space-2 rounded-md border border-line bg-surface-raised p-space-4 shadow-sm", className)}>
       <div className="text-eyebrow uppercase text-ink-muted">{label}</div>
@@ -34,9 +37,9 @@ export function KpiCard({ label, value, unit, delta, deltaLabel, trend, goodDire
       {hasDelta || deltaLabel ? (
         <div className="flex items-center gap-space-2 text-body-sm text-ink-subtle">
           {hasDelta ? (
-            <span className={cn("tabular inline-flex items-center gap-0.5 font-semibold", tone)}>
-              {delta! > 0 ? <ArrowUp className="size-3" strokeWidth={2.5} aria-hidden /> : delta! < 0 ? <ArrowDown className="size-3" strokeWidth={2.5} aria-hidden /> : null}
-              {(delta! > 0 ? "+" : "") + delta!.toFixed(1)}%
+            <span className={cn("tabular inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap font-semibold", tone)}>
+              {flat ? null : delta! > 0 ? <ArrowUp className="size-3" strokeWidth={2.5} aria-hidden /> : <ArrowDown className="size-3" strokeWidth={2.5} aria-hidden />}
+              {flat ? "0.0" : (delta! > 0 ? "+" : "") + delta!.toFixed(1)}{deltaUnit === "pp" ? " pp" : "%"}
             </span>
           ) : null}
           {deltaLabel ? <span>{deltaLabel}</span> : null}

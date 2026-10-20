@@ -26,7 +26,7 @@ export interface DataTableProps<R> {
 }
 
 /** Records with sortable columns. The consumer sorts and pages the rows; the table only renders them. */
-export function DataTable<R extends Record<string, unknown>>({ columns, rows, rowKey, sortKey, sortDir, onSort, caption, className }: DataTableProps<R>) {
+export function DataTable<R extends object>({ columns, rows, rowKey, sortKey, sortDir, onSort, caption, className }: DataTableProps<R>) {
   return (
     <div className={cn("overflow-x-auto rounded-md border border-line bg-surface-raised", className)}>
       <table className="w-full border-collapse text-body-sm">
@@ -73,7 +73,7 @@ export function DataTable<R extends Record<string, unknown>>({ columns, rows, ro
                     c.mono && "font-mono text-code text-ink-muted",
                   )}
                 >
-                  {c.format ? c.format(r[c.key], r) : String(r[c.key] ?? "")}
+                  {c.format ? c.format(r[c.key], r) : String((r[c.key] as unknown) ?? "")}
                 </td>
               ))}
             </tr>

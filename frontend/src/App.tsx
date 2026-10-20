@@ -1,22 +1,45 @@
-import { useState } from "react";
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui";
 import { AppShell } from "@/layouts/AppShell";
-import { NAV_ITEMS } from "@/layouts/nav";
-import { DesignSystemPage } from "@/pages/DesignSystemPage";
-import { PlaceholderPage } from "@/pages/PlaceholderPage";
-import { StatusPill } from "@/components/ui";
 
-const PHASE: Record<string, string> = {
-  overview: "Phase 6", sales: "Phase 7", customers: "Phase 8", products: "Phase 9", operations: "Phase 10",
-  forecast: "Phase 20", anomalies: "Phase 19", assistant: "Phase 16", observatory: "Phase 24", datasets: "Phase 25",
+const page = (load: () => Promise<{ default: React.ComponentType }>) => {
+  const C = lazy(load);
+  return (
+    <Suspense fallback={<Skeleton className="h-96" label="Loading page" />}>
+      <C />
+    </Suspense>
+  );
 };
 
-// Simple in-memory navigation until React Router is added in Phase 5.
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppShell />,
+    children: [
+      { index: true, element: page(() => import("@/pages/OverviewPage")) },
+      { path: "sales", element: page(() => import("@/pages/SalesPage")) },
+      { path: "customers", element: page(() => import("@/pages/CustomersPage")) },
+      { path: "products", element: page(() => import("@/pages/ProductsPage")) },
+      { path: "operations", element: page(() => import("@/pages/OperationsPage")) },
+      { path: "forecast", element: page(() => import("@/pages/ForecastPage")) },
+      { path: "anomalies", element: page(() => import("@/pages/AnomaliesPage")) },
+      { path: "assistant", element: page(() => import("@/pages/AssistantPage")) },
+      { path: "observatory", element: page(() => import("@/pages/ObservatoryPage")) },
+      { path: "datasets", element: page(() => import("@/pages/DatasetsPage")) },
+      { path: "design-system", element: page(() => import("@/pages/DesignSystemRoute")) },
+      { path: "*", element: page(() => import("@/pages/NotFoundPage")) },
+    ],
+  },
+]);
+
+const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 60_000, refetchOnWindowFocus: false } } });
+
 export default function App() {
-  const [page, setPage] = useState("design-system");
-  const item = NAV_ITEMS.find((i) => i.id === page) ?? NAV_ITEMS[0];
   return (
-    <AppShell page={page} onNavigate={setPage} title={item.label} headerActions={<StatusPill>v1 · 2021–2025</StatusPill>}>
-      {page === "design-system" ? <DesignSystemPage /> : <PlaceholderPage title={item.label} phase={PHASE[page] ?? "a later phase"} />}
-    </AppShell>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   );
 }

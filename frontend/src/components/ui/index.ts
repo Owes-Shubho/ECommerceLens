@@ -9,3 +9,4 @@ export { ChartCard, type ChartCardProps, type LegendItem } from "./chart-card";
 export { DataTable, type DataTableProps, type Column } from "./data-table";
 export { Alert, type AlertProps, type AlertTone } from "./alert";
 export { ChatMessage, type ChatMessageProps, type ChatMeta } from "./chat-message";
+export { Skeleton } from "./skeleton";
