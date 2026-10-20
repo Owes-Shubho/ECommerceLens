@@ -1,0 +1,48 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Data (never commit raw or generated data)
+data/raw/*
+data/processed/*
+data/cache/*
+data/models/*
+!data/**/.gitkeep
+*.parquet
+*.duckdb
+*.duckdb.wal
+
+# Model artifacts
+*.pt
+*.pth
+*.ckpt
+*.joblib
+*.pkl
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+build/
+coverage/
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Generated reports
+docs/report/exports/
