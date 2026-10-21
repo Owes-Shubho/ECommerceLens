@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logos/ecommercelens-wordmark-dark-bg.png" alt="ECommerceLens" width="420">
+  <img src="assets/logos/ecommercelens-wordmark-light-bg.png" alt="ECommerceLens" width="420">
 </p>
 
 # ECommerceLens
