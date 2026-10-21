@@ -48,3 +48,22 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+/* Logo: dark-text wordmark on light themes, white-text wordmark on dark themes. */
+.wordmark-on-dark {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .wordmark-on-light {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .wordmark-on-dark {
+    display: block;
+  }
+}
+[data-theme="dark"] .wordmark-on-light {
+  display: none;
+}
+[data-theme="dark"] .wordmark-on-dark {
+  display: block;
+}

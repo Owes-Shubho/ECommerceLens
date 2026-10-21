@@ -94,14 +94,14 @@ export default function AnomaliesPage() {
       <ChartCard
         title={`Daily ${metric === "orders" ? "orders" : "net sales"} with anomalies`}
         subtitle="Rolling z-score against the previous 28 days"
-        legend={[{ label: "Daily value", color: "var(--series-1)" }, { label: "Critical", color: "var(--critical)" }, { label: "Serious", color: "var(--serious)" }, { label: "Warning", color: "var(--warning)" }]}
+        legend={[{ label: "Daily value", color: "var(--line-strong)" }, { label: "Critical", color: "var(--critical)" }, { label: "Serious", color: "var(--serious)" }, { label: "Warning", color: "var(--warning)" }]}
         footnote="Drag on the chart to zoom; double-click to reset. Each anomaly is also listed in the table below."
       >
         <Plot
           height={340}
           ariaLabel="Line chart of daily values with anomaly markers"
           data={[
-            lineTrace(series.t, series.y, metric === "orders" ? "Orders" : "Net sales", "var(--series-1)", { line: { color: "var(--series-1)", width: 1.2 }, hovertemplate: metric === "orders" ? "%{x}<br>%{y} orders<extra></extra>" : "%{x}<br>%{y:$,.0f}<extra></extra>" }),
+            lineTrace(series.t, series.y, metric === "orders" ? "Orders" : "Net sales", "var(--line-strong)", { line: { color: "var(--line-strong)", width: 1.2 }, hovertemplate: metric === "orders" ? "%{x}<br>%{y} orders<extra></extra>" : "%{x}<br>%{y:$,.0f}<extra></extra>" }),
             ...(["warning", "serious", "critical"] as Severity[]).map((s) => ({
               type: "scatter" as const, mode: "markers" as const, name: SEV_LABEL[s],
               x: found.filter((a) => a.severity === s).map((a) => a.t), y: found.filter((a) => a.severity === s).map((a) => a.value),

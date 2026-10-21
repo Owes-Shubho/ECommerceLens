@@ -60,7 +60,7 @@ export default function OverviewPage() {
             <Plot
               ariaLabel="Line chart of net sales and profit over time"
               data={[
-                lineTrace(data.trend.map((p) => p.t), data.trend.map((p) => p.netSales), "Net sales", "var(--series-1)", { fill: "tozeroy", fillcolor: "rgba(42,120,214,0.08)" }),
+                lineTrace(data.trend.map((p) => p.t), data.trend.map((p) => p.netSales), "Net sales", "var(--series-1)", { fill: "tozeroy", fillcolor: "rgba(235,104,52,0.08)" }),
                 lineTrace(data.trend.map((p) => p.t), data.trend.map((p) => p.profit), "Profit", "var(--series-2)"),
               ]}
               layout={{ showlegend: false, yaxis: { tickprefix: "$", tickformat: "~s" }, hovermode: "x unified" }}

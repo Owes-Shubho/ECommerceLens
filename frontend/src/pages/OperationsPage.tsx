@@ -16,7 +16,7 @@ const WH_COLS: Column<Wh>[] = [
   { key: "on_time", label: "On time or early", align: "right", format: (v) => pct(v as number) },
   { key: "return_rate", label: "Return rate", align: "right", format: (v) => pct(v as number) },
 ];
-const STATUS_COLORS = { Early: "var(--series-3)", "On Time": "var(--series-1)", Delayed: "var(--series-2)" } as const;
+const STATUS_COLORS = { Early: "var(--series-2)", "On Time": "var(--series-1)", Delayed: "var(--series-4)" } as const;
 
 export default function OperationsPage() {
   const { data, isLoading } = useFiltered("operations", getOperations);

@@ -11,14 +11,19 @@ export interface SidebarProps {
   onNavigate?: () => void;
 }
 
-/** Placeholder mark until a real logo exists: a lens ring on a lens tile. */
+/** The app icon (cart + lens). */
 export function LensMark({ className }: { className?: string }) {
+  return <img src="/brand/icon.png" alt="" width={28} height={28} className={cn("size-7 shrink-0", className)} />;
+}
+
+/** Icon + wordmark. The wordmark has a dark-text and a white-text version; CSS shows the one that suits the theme. */
+export function BrandLogo({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden className={cn("size-[22px] text-lens", className)}>
-      <rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" />
-      <circle cx="12" cy="12" r="5" stroke="var(--on-lens)" strokeWidth="2" />
-      <path d="M7 17l2.5-2.5" stroke="var(--on-lens)" strokeWidth="2" strokeLinecap="round" />
-    </svg>
+    <span className={cn("flex min-w-0 items-center gap-space-2", className)}>
+      <LensMark />
+      <img src="/brand/wordmark-light-bg.png" alt="ECommerceLens" className="wordmark-on-light h-[18px] w-auto" />
+      <img src="/brand/wordmark-dark-bg.png" alt="ECommerceLens" className="wordmark-on-dark h-[18px] w-auto" />
+    </span>
   );
 }
 
@@ -27,10 +32,9 @@ export function Sidebar({ items, footer, className, onNavigate }: SidebarProps) 
   const groups = [...new Set(items.map((i) => i.group))];
   return (
     <nav aria-label="Main" className={cn("flex w-sidebar flex-col gap-space-4 border-r border-line bg-surface px-space-3 py-space-4", className)}>
-      <div className="flex items-center gap-space-2 px-space-2 font-display text-[17px] font-bold tracking-[-0.01em] text-ink">
-        <LensMark />
-        ECommerceLens
-      </div>
+      <NavLink to="/" onClick={onNavigate} className="rounded-sm px-space-2 py-space-1" aria-label="ECommerceLens home">
+        <BrandLogo />
+      </NavLink>
       <div className="grid gap-0.5 overflow-y-auto">
         {groups.map((g) => (
           <div key={g} className="grid gap-0.5">

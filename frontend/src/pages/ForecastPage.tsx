@@ -60,7 +60,7 @@ export default function ForecastPage() {
   const data: PlotData[] = [
     lineTrace(t.slice(from), actual.slice(from), "Actual", "var(--series-1)", { line: { color: "var(--series-1)", width: gran === "Daily" ? 1.5 : 2 } }),
     lineTrace(t.slice(from), testPred.slice(from), "Test prediction", "var(--series-2)", { connectgaps: false }),
-    { type: "scatter", mode: "lines", x: [...future.t, ...[...future.t].reverse()], y: [...future.hi, ...[...future.lo].reverse()], fill: "toself", fillcolor: "rgba(235,104,52,0.15)", line: { width: 0 }, hoverinfo: "skip", name: "95% band", showlegend: false },
+    { type: "scatter", mode: "lines", x: [...future.t, ...[...future.t].reverse()], y: [...future.hi, ...[...future.lo].reverse()], fill: "toself", fillcolor: "rgba(27,175,122,0.16)", line: { width: 0 }, hoverinfo: "skip", name: "95% band", showlegend: false },
     lineTrace([t[t.length - 1], ...future.t], [actual[actual.length - 1], ...future.yhat], "Forecast", "var(--series-2)", { line: { color: "var(--series-2)", width: 2, dash: "dash" } }),
   ];
 
